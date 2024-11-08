@@ -1,0 +1,83 @@
+* {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(86, 133, 25);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.background {
+  background-color: rgb(86, 133, 25);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.center-container {
+  //   width: 70vw;
+  //   height: 70vh;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  //   background-color: red;
+}
+
+.textbox {
+  width: 40%;
+  height: 20%;
+  background-color: rgb(148, 151, 144);
+  padding-left: 60px;
+
+  font-size: 40px;
+  border-radius: 80px;
+}
+
+input.textbox {
+  border: none;
+  outline: none;
+
+  //   &:focus {
+  //     // background-color: blue;
+  //     border: 3px black;
+  //   }w
+}
+
+.list-of-hashes {
+  width: 40%;
+  height: 20%;
+  margin-top: 10%;
+  border-radius: 5px;
+  background-color: rgb(77, 77, 77);
+  overflow: hidden;
+  text-align: center;
+}
+
+.hash {
+  font-size: medium;
+}
