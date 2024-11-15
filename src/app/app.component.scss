@@ -13,7 +13,7 @@
 .textbox {
   width: 40%;
   height: 20%;
-  background-color: rgb(148, 151, 144);
+  background-color: $box-light;
   padding-left: 60px;
 
   font-size: 40px;
@@ -30,17 +30,22 @@ input.textbox {
   //   }w
 }
 
+input.textbox::placeholder {
+  color: $background;
+}
+
 .list-of-hashes {
   width: 40%;
   height: 20%;
   margin-top: 5%;
   border-radius: 20px;
-  background-color: rgb(77, 77, 77);
+  background-color: $box-dark;
   padding: 8px;
   overflow-y: scroll;
   text-align: center;
 }
 
 .hash {
-  font-size: medium;
+  font-size: large;
+  color: $background-dark;
 }

@@ -18,10 +18,20 @@ body {
 //custom scrollbar
 /* Width */
 ::-webkit-scrollbar {
-  width: 20px;
+  width: 40px;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 20px;
-  background: gray;
+  background: $box-light;
+}
+
+.box-light-color {
+  color: $box-light;
+}
+
+.title {
+  position: relative;
+  font-size: 40px;
+  top: -50px;
 }
