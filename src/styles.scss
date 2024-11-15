@@ -14,3 +14,14 @@ body {
   align-items: center;
   margin: 0;
 }
+
+//custom scrollbar
+/* Width */
+::-webkit-scrollbar {
+  width: 20px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: gray;
+}
