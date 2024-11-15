@@ -34,11 +34,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    //this is because of SSR (Server side Rendering)
-    if (document !== undefined) {
-      let a = 5;
-      this.textInputElement = document!.querySelector('input.textbox');
-    }
+    this.textInputElement = document.querySelector('input.textbox');
 
     const textObservable$ = fromEvent(this.textInputElement!, 'keyup').pipe(
       map((event: any) => event.target.value)
@@ -56,7 +52,7 @@ export class AppComponent {
         )
       );
 
-    const deleteInterval = 5_000;
+    const deleteInterval = 4_000;
     interval(deleteInterval).subscribe(() => this.listOfHashes.shift());
 
     // textObservable$
