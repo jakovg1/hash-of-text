@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
   debounceTime,
+  filter,
   fromEvent,
   interval,
   map,
@@ -44,13 +45,15 @@ export class AppComponent {
       .pipe(
         debounceTime(500),
         throttleTime(300),
+
+        filter((inputString) => inputString.trim() !== ''),
         switchMap((inputString) => this.hashService.getHash(inputString))
       )
-      .subscribe((hashResponse: HashResponse) =>
+      .subscribe((hashResponse: HashResponse) => {
         this.processCurrentTextValue(
           hashResponse.input + ': ' + hashResponse.hashOfInput
-        )
-      );
+        );
+      });
 
     const deleteInterval = 4_000;
     interval(deleteInterval).subscribe(() => this.listOfHashes.shift());
