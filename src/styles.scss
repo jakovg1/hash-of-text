@@ -1,7 +1,14 @@
+@import "./variables.scss";
+
+* {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
 body {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(86, 133, 25);
+  background-color: $background;
   display: flex;
   justify-content: center;
   align-items: center;
