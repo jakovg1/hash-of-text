@@ -10,6 +10,18 @@
   align-items: center;
 }
 
+.hash-heading {
+  width: 60%;
+  color: $box-light;
+  font-size: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 5%;
+  margin-bottom: 1%;
+  //   background-color: red;
+  text-align: center;
+}
+
 .textbox {
   width: 40%;
   height: 20%;
@@ -28,24 +40,40 @@ input.textbox {
   //     // background-color: blue;
   //     border: 3px black;
   //   }w
-}
 
-input.textbox::placeholder {
-  color: $background;
+  &::placeholder {
+    color: $background;
+  }
 }
 
 .list-of-hashes {
-  width: 40%;
-  height: 20%;
-  margin-top: 5%;
+  width: 60%;
+  height: 30%;
   border-radius: 20px;
   background-color: $box-dark;
-  padding: 8px;
   overflow-y: scroll;
+  overflow-x: auto;
+
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
 
 .hash {
+  white-space: nowrap;
   font-size: large;
   color: $background-dark;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  text-align: center;
+
+  > * {
+    padding: 0 12px;
+  }
+
+  //add border separator between string and hash
+  > :first-child {
+    border-right: 2px solid $background-dark;
+  }
 }

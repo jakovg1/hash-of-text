@@ -4,11 +4,16 @@
     type="text"
     class="textbox"
     placeholder="Type in text..."
+    maxlength="30"
     [(ngModel)]="textInput"
     (keydown.enter)="enterKeyPressed($event)"
   />
+  <div class="hash-heading"><span>String</span><span>Hash of string</span></div>
 
   <div class="list-of-hashes">
-    <div *ngFor="let hash of listOfHashes" class="hash">{{ hash }}</div>
+    <div *ngFor="let item of listOfHashes" class="hash">
+      <span>{{ item.input }}</span
+      ><span>{{ item.hashOfInput }}</span>
+    </div>
   </div>
 </div>

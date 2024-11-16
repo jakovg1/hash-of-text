@@ -19,11 +19,20 @@ body {
 /* Width */
 ::-webkit-scrollbar {
   width: 40px;
+
+  &:horizontal {
+    height: 40px;
+  }
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 20px;
   background: $box-light;
+}
+/* Bottom right corner */
+::-webkit-scrollbar-corner {
+  background: $box-dark;
+  border-radius: 20px;
 }
 
 .box-light-color {
