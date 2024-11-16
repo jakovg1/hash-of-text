@@ -18,7 +18,7 @@ export class HashService {
     const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<HashResponse>(
       this.hashApiUrl + this.hashOfStringEndpoint,
-      JSON.stringify(stringToBeHashed),
+      stringToBeHashed,
       { headers: httpHeaders }
     );
   }
