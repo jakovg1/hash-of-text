@@ -3,12 +3,14 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
+  catchError,
   debounceTime,
   filter,
   fromEvent,
   interval,
   map,
   merge,
+  of,
   Subject,
   switchMap,
   throttleTime,
@@ -51,9 +53,11 @@ export class AppComponent {
     flushedTextObservable
       .pipe(
         filter((inputString) => inputString.trim() !== ''),
-        switchMap((inputString) => this.hashService.getHash(inputString))
+        switchMap((inputString) => this.hashService.getHash(inputString)),
+        catchError((err) => of({} as HashResponse))
       )
       .subscribe((hashResponse: HashResponse) => {
+        if (hashResponse === undefined) return;
         this.processCurrentTextValue(hashResponse);
       });
 
