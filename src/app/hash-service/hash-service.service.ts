@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  HashAlgorithmRequest,
   HashAlgorithmResponse,
   HashOfStringRequest,
   HashOfStringResponse,
+  SupportedAlgorithmsResponse,
 } from './hash-service.model';
 import { Observable } from 'rxjs';
 
@@ -38,6 +40,19 @@ export class HashService {
   public getHashAlgorithm(): Observable<HashAlgorithmResponse> {
     return this.http.get<HashAlgorithmResponse>(
       this.hashApiUrl + this.getHashAlgorithmEndpoint
+    );
+  }
+
+  public setHashAlgorithm(algorithm: string): Observable<any> {
+    return this.http.post<HashAlgorithmRequest>(
+      this.hashApiUrl + this.setHashAlgorithmEndpoint,
+      { algorithm } as HashAlgorithmRequest
+    );
+  }
+
+  public getSupportedHashAlgorithms(): Observable<SupportedAlgorithmsResponse> {
+    return this.http.get<SupportedAlgorithmsResponse>(
+      this.hashApiUrl + this.getSupportedAlgorithmsEndpoint
     );
   }
 }

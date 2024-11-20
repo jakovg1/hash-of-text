@@ -16,3 +16,7 @@ export interface HashOfStringResponse {
   readonly hashOfInput: string;
   readonly hashAlgorithm: string;
 }
+
+export interface SupportedAlgorithmsResponse {
+  readonly supportedAlgorithms: string[];
+}
