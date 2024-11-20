@@ -8,10 +8,23 @@
     [(ngModel)]="textInput"
     (keydown.enter)="enterKeyPressed($event)"
   />
-  <div>
-    Algorithm:
-    <span>{{ this.currentHashAlg$ | async }}</span>
-  </div>
+  <form [formGroup]="algorithmsForm">
+    <label for="algorithm">Algorithm: {{ currentHashAlg$ | async }}</label>
+    <select
+      name="algorithm"
+      id="algorithm"
+      formControlName="selectedAlgorithm"
+      (change)="onAlgorithmChange()"
+    >
+      <option
+        *ngFor="let algorithm of this.hashAlgorithmOptions"
+        [value]="algorithm"
+      >
+        {{ algorithm }}
+      </option>
+    </select>
+  </form>
+
   <div class="hash-heading"><span>String</span><span>Hash of string</span></div>
 
   <div class="list-of-hashes">
