@@ -1,25 +1,43 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HashResponse } from './hash-service.model';
+import {
+  HashAlgorithmResponse,
+  HashOfStringRequest,
+  HashOfStringResponse,
+} from './hash-service.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HashService {
+  //this should not stay in this file.
   private hashApiUrl: string = 'https://localhost:8443';
-  private hashOfStringEndpoint: string = '/hash';
+
+  //endpoints
+  private getHashOfStringEndpoint: string = '/hash-string/hash';
+  private getHashAlgorithmEndpoint: string = '/hash-string/algorithm';
+  private setHashAlgorithmEndpoint: string = '/hash-string/algorithm';
+  private getSupportedAlgorithmsEndpoint: string = '/hash-string/algorithms';
 
   constructor(private http: HttpClient) {
     //
   }
 
-  public getHash(stringToBeHashed: string): Observable<HashResponse> {
+  public getHashOfString(
+    stringToBeHashed: string
+  ): Observable<HashOfStringResponse> {
     const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<HashResponse>(
-      this.hashApiUrl + this.hashOfStringEndpoint,
-      stringToBeHashed,
+    return this.http.post<HashOfStringResponse>(
+      this.hashApiUrl + this.getHashOfStringEndpoint,
+      { input: stringToBeHashed } as HashOfStringRequest,
       { headers: httpHeaders }
+    );
+  }
+
+  public getHashAlgorithm(): Observable<HashAlgorithmResponse> {
+    return this.http.get<HashAlgorithmResponse>(
+      this.hashApiUrl + this.getHashAlgorithmEndpoint
     );
   }
 }

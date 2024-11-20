@@ -10,13 +10,17 @@ import {
   interval,
   map,
   merge,
+  Observable,
   of,
   Subject,
   switchMap,
   throttleTime,
 } from 'rxjs';
 import { HashService } from './hash-service/hash-service.service';
-import { HashResponse } from './hash-service/hash-service.model';
+import {
+  HashAlgorithmResponse,
+  HashOfStringResponse,
+} from './hash-service/hash-service.model';
 
 @Component({
   selector: 'app-root',
@@ -28,12 +32,18 @@ import { HashResponse } from './hash-service/hash-service.model';
 export class AppComponent {
   title = 'hash-of-text';
 
-  public listOfHashes: HashResponse[] = [];
+  public listOfHashes: HashOfStringResponse[] = [];
   public textInput: string = '';
   public textInputElement: Element | null = null;
   private flushInputText$: Subject<string> = new Subject();
 
-  constructor(private hashService: HashService) {}
+  public currentHashAlg$: Observable<string>;
+
+  constructor(private hashService: HashService) {
+    this.currentHashAlg$ = this.hashService
+      .getHashAlgorithm()
+      .pipe(map((response: HashAlgorithmResponse) => response.algorithm));
+  }
 
   public enterKeyPressed(event: any) {
     this.flushInputText$.next(event.target.value);
@@ -53,10 +63,12 @@ export class AppComponent {
     flushedTextObservable
       .pipe(
         filter((inputString) => inputString.trim() !== ''),
-        switchMap((inputString) => this.hashService.getHash(inputString)),
-        catchError((err) => of({} as HashResponse))
+        switchMap((inputString) =>
+          this.hashService.getHashOfString(inputString)
+        ),
+        catchError((err) => of({} as HashOfStringResponse))
       )
-      .subscribe((hashResponse: HashResponse) => {
+      .subscribe((hashResponse: HashOfStringResponse) => {
         if (hashResponse === undefined) return;
         this.processCurrentTextValue(hashResponse);
       });
@@ -65,7 +77,7 @@ export class AppComponent {
     interval(deleteInterval).subscribe(() => this.listOfHashes.shift());
   }
 
-  public processCurrentTextValue(hashResponse: HashResponse): void {
+  public processCurrentTextValue(hashResponse: HashOfStringResponse): void {
     this.listOfHashes.push(hashResponse);
     (this.textInputElement as HTMLInputElement).value = '';
   }

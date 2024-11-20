@@ -8,6 +8,10 @@
     [(ngModel)]="textInput"
     (keydown.enter)="enterKeyPressed($event)"
   />
+  <div>
+    Algorithm:
+    <span>{{ this.currentHashAlg$ | async }}</span>
+  </div>
   <div class="hash-heading"><span>String</span><span>Hash of string</span></div>
 
   <div class="list-of-hashes">
