@@ -1,29 +1,34 @@
 <div class="center-container">
   <h1 class="box-light-color title">String hashing</h1>
-  <input
-    type="text"
-    class="textbox"
-    placeholder="Type in text..."
-    maxlength="30"
-    [(ngModel)]="textInput"
-    (keydown.enter)="enterKeyPressed($event)"
-  />
-  <form [formGroup]="algorithmsForm">
-    <label for="algorithm">Algorithm: {{ currentHashAlg$ | async }}</label>
-    <select
-      name="algorithm"
-      id="algorithm"
-      formControlName="selectedAlgorithm"
-      (change)="onAlgorithmChange()"
-    >
-      <option
-        *ngFor="let algorithm of this.hashAlgorithmOptions"
-        [value]="algorithm"
-      >
-        {{ algorithm }}
-      </option>
-    </select>
-  </form>
+  <div class="textbox-wrapper">
+    <input
+      type="text"
+      class="textbox"
+      placeholder="Type in text..."
+      maxlength="30"
+      [(ngModel)]="textInput"
+      (keydown.enter)="enterKeyPressed($event)"
+    />
+    <div class="alg-dropdown-wrapper">
+      <form [formGroup]="algorithmsForm">
+        <div class="alg-label">Hash Algorithm</div>
+        <select
+          name="algorithm"
+          id="algorithm"
+          formControlName="selectedAlgorithm"
+          class="alg-dropdown"
+          (change)="onAlgorithmChange()"
+        >
+          <option
+            *ngFor="let algorithm of this.hashAlgorithmOptions"
+            [value]="algorithm"
+          >
+            {{ algorithm }}
+          </option>
+        </select>
+      </form>
+    </div>
+  </div>
 
   <div class="hash-heading"><span>String</span><span>Hash of string</span></div>
 
@@ -33,4 +38,5 @@
       ><span>{{ item.hashOfInput }}</span>
     </div>
   </div>
+  <div>foo: {{ currentHashAlg$ | async }}</div>
 </div>
