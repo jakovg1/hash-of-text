@@ -43,8 +43,8 @@ export class HashService {
     );
   }
 
-  public setHashAlgorithm(algorithm: string): Observable<any> {
-    return this.http.post<HashAlgorithmRequest>(
+  public setHashAlgorithm(algorithm: string): Observable<void> {
+    return this.http.post<void>(
       this.hashApiUrl + this.setHashAlgorithmEndpoint,
       { algorithm } as HashAlgorithmRequest
     );

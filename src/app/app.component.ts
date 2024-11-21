@@ -51,16 +51,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public algorithmsForm: FormGroup = new FormGroup([]);
   public hashAlgorithmOptions: string[] = [];
+  public algorithmIsLoading: boolean = false;
 
-  public currentHashAlg$: Observable<string>;
-  public algorithmChanged$: Subject<string> = new Subject();
-
-  constructor(private hashService: HashService, private fb: FormBuilder) {
-    this.currentHashAlg$ = this.algorithmChanged$.pipe(
-      switchMap((_) => this.hashService.getHashAlgorithm()),
-      map((response: HashAlgorithmResponse) => response.algorithm)
-    );
-  }
+  constructor(private hashService: HashService, private fb: FormBuilder) {}
 
   public ngOnDestroy(): void {
     this.destroy$.next();
@@ -75,46 +68,40 @@ export class AppComponent implements OnInit, OnDestroy {
     this.algorithmsForm = this.fb.group({
       selectedAlgorithm: new FormControl(),
     });
-
     this.textInputElement = document.querySelector('input.textbox');
 
-    //populate has algorithm options
+    this.algorithmsForm
+      .get('selectedAlgorithm')
+      ?.valueChanges.pipe(
+        tap((_) => (this.algorithmIsLoading = true)),
+        switchMap((hashAlgorithm) =>
+          this.hashService.setHashAlgorithm(hashAlgorithm)
+        ),
+        catchError((error) => {
+          alert('Error when setting algorithm: ' + error);
+          return of();
+        }),
+        tap((_) => (this.algorithmIsLoading = false))
+      )
+      .subscribe();
+
+    this.algorithmIsLoading = true;
     this.hashService
       .getSupportedHashAlgorithms()
       .pipe(
-        map(
-          (response: SupportedAlgorithmsResponse) =>
-            response.supportedAlgorithms
-        ),
-        tap(
-          (supportedAlgorithms: string[]) =>
-            (this.hashAlgorithmOptions = supportedAlgorithms)
-        ),
-        switchMap((supportedAlgorithms: string[]) => {
-          this.algorithmChanged$.next(supportedAlgorithms[0] || '');
-          return of();
-        }),
-        takeUntil(this.destroy$),
-        catchError((err) => {
-          alert(err);
-          return of();
+        map((response) => response.supportedAlgorithms),
+        tap((supportedAlgorithms) => {
+          this.hashAlgorithmOptions = supportedAlgorithms;
+          this.algorithmsForm
+            .get('selectedAlgorithm')
+            ?.patchValue(this.hashAlgorithmOptions[0]);
         })
       )
       .subscribe();
 
-    //subscribe to algorithm changes
-    this.algorithmChanged$
-      .pipe(
-        switchMap((algorithm: string) =>
-          this.hashService.setHashAlgorithm(algorithm)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((foo) => console.log(foo));
-
     const textObservable$ = fromEvent(this.textInputElement!, 'keyup').pipe(
       map((event: any) => event.target.value),
-      debounceTime(500),
+      debounceTime(800),
       throttleTime(300)
     );
 
@@ -136,12 +123,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const deleteInterval = 4_000;
     interval(deleteInterval).subscribe(() => this.listOfHashes.shift());
-  }
-
-  public onAlgorithmChange(): void {
-    const selectedAlgorithm =
-      this.algorithmsForm.get('selectedAlgorithm')?.value;
-    this.algorithmChanged$.next(selectedAlgorithm);
   }
 
   public processCurrentTextValue(hashResponse: HashOfStringResponse): void {

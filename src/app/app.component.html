@@ -2,13 +2,16 @@
   <h1 class="box-light-color title">String hashing</h1>
   <div class="textbox-wrapper">
     <input
+      [ngClass]="{ 'textbox-loading': algorithmIsLoading }"
       type="text"
       class="textbox"
       placeholder="Type in text..."
       maxlength="30"
       [(ngModel)]="textInput"
       (keydown.enter)="enterKeyPressed($event)"
+      [disabled]="algorithmIsLoading"
     />
+    <div *ngIf="algorithmIsLoading" class="spinner"></div>
     <div class="alg-dropdown-wrapper">
       <form [formGroup]="algorithmsForm">
         <div class="alg-label">Hash Algorithm</div>
@@ -17,7 +20,6 @@
           id="algorithm"
           formControlName="selectedAlgorithm"
           class="alg-dropdown"
-          (change)="onAlgorithmChange()"
         >
           <option
             *ngFor="let algorithm of this.hashAlgorithmOptions"
@@ -29,7 +31,6 @@
       </form>
     </div>
   </div>
-
   <div class="hash-heading"><span>String</span><span>Hash of string</span></div>
 
   <div class="list-of-hashes">
@@ -38,5 +39,4 @@
       ><span>{{ item.hashOfInput }}</span>
     </div>
   </div>
-  <div>foo: {{ currentHashAlg$ | async }}</div>
 </div>
